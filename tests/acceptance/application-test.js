@@ -29,4 +29,17 @@ module('Acceptance | application', function(hooks) {
     assert.dom('[data-test-list-foos]').exists({ count: 1 });
     assert.dom('[data-test-foo]').exists({ count: 10 });
   });
+
+  test('visiting / - await visit() twice', async function(assert) {
+    this.server.createList('foo', 10);
+
+    await visit('/');
+    await visit('/');
+
+    assert.equal(currentURL(), '/');
+    assert.dom('[data-test-title]').exists({ count: 1 });
+    assert.dom('[data-test-list-foos]').exists({ count: 1 });
+    assert.dom('[data-test-foo]').exists({ count: 10 });
+  });
+
 });
