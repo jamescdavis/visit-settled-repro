@@ -1,0 +1,9 @@
+<ul
+  data-test-list-foos
+  ...attributes
+  {{did-insert this.getFoos}}
+>
+  {{#each this.foos as |foo|}}
+    <li data-test-foo>{{foo.name}}</li>
+  {{/each}}
+</ul>
