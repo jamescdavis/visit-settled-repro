@@ -10,5 +10,6 @@ Router.map(function() {
   this.route('jquery');
   this.route('promisified-jquery');
   this.route('promisified-xhr');
+  this.route('fetch');
   this.route('data');
 });

@@ -36,6 +36,11 @@ export default class ListFoosComponent extends Component {
           }))
         );
         break;
+      case 'fetch':
+        this.store.pushPayload(
+          await (await fetch('/foos')).json()
+        );
+        break;
       case 'data':
         this.store.findAll('foo');
         break;

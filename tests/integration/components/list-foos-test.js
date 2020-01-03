@@ -65,6 +65,25 @@ module('Integration | Component | list-foos', function(hooks) {
     assert.dom('[data-test-foo]').exists({ count: 10 });
   });
 
+  test('fetchMethod: fetch - await render() only', async function(assert) {
+    this.server.createList('foo', 10);
+
+    await render(hbs`<ListFoos @fetchMethod='fetch'/>`);
+
+    assert.dom('[data-test-list-foos]').exists({ count: 1 });
+    assert.dom('[data-test-foo]').exists({ count: 10 });
+  });
+
+  test('fetchMethod: fetch - with await settled()', async function(assert) {
+    this.server.createList('foo', 10);
+
+    await render(hbs`<ListFoos @fetchMethod='fetch'/>`);
+    await settled();
+
+    assert.dom('[data-test-list-foos]').exists({ count: 1 });
+    assert.dom('[data-test-foo]').exists({ count: 10 });
+  });
+
   test('fetchMethod: data - await render() only', async function(assert) {
     this.server.createList('foo', 10);
 
