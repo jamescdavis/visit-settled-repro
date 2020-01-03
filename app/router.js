@@ -8,6 +8,7 @@ export default class Router extends EmberRouter {
 
 Router.map(function() {
   this.route('jquery');
-  this.route('xhr');
+  this.route('promisified-jquery');
+  this.route('promisified-xhr');
   this.route('data');
 });

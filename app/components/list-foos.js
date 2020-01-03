@@ -16,7 +16,15 @@ export default class ListFoosComponent extends Component {
           await $.ajax({ url: '/foos' })
         );
         break;
-      case 'xhr':
+      case 'promisified-jquery':
+        this.store.pushPayload(
+          await new Promise(resolve => {
+            /* global $ */
+            $.ajax({ url: '/foos' }).done(response => resolve(response));
+          })
+        );
+        break;
+      case 'promisified-xhr':
         this.store.pushPayload(
           JSON.parse(await new Promise(resolve => {
             var xhr = new XMLHttpRequest();

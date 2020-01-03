@@ -27,19 +27,38 @@ module('Integration | Component | list-foos', function(hooks) {
     assert.dom('[data-test-foo]').exists({ count: 10 });
   });
 
-  test('fetchMethod: xhr - await render() only', async function(assert) {
+  test('fetchMethod: promisified-jquery - await render() only', async function(assert) {
     this.server.createList('foo', 10);
 
-    await render(hbs`<ListFoos @fetchMethod='xhr'/>`);
+    await render(hbs`<ListFoos @fetchMethod='promisified-jquery'/>`);
 
     assert.dom('[data-test-list-foos]').exists({ count: 1 });
     assert.dom('[data-test-foo]').exists({ count: 10 });
   });
 
-  test('fetchMethod: xhr - with await settled()', async function(assert) {
+  test('fetchMethod: promisified-jquery - with await settled()', async function(assert) {
     this.server.createList('foo', 10);
 
-    await render(hbs`<ListFoos @fetchMethod='xhr'/>`);
+    await render(hbs`<ListFoos @fetchMethod='promisified-jquery'/>`);
+    await settled();
+
+    assert.dom('[data-test-list-foos]').exists({ count: 1 });
+    assert.dom('[data-test-foo]').exists({ count: 10 });
+  });
+
+  test('fetchMethod: promisified-xhr - await render() only', async function(assert) {
+    this.server.createList('foo', 10);
+
+    await render(hbs`<ListFoos @fetchMethod='promisified-xhr'/>`);
+
+    assert.dom('[data-test-list-foos]').exists({ count: 1 });
+    assert.dom('[data-test-foo]').exists({ count: 10 });
+  });
+
+  test('fetchMethod: promisified-xhr - with await settled()', async function(assert) {
+    this.server.createList('foo', 10);
+
+    await render(hbs`<ListFoos @fetchMethod='promisified-xhr'/>`);
     await settled();
 
     assert.dom('[data-test-list-foos]').exists({ count: 1 });
