@@ -9,9 +9,29 @@ export default class ListFoosComponent extends Component {
   @tracked foos = [];
 
   @action async getFoos() {
-    /* global $ */
-    const foosResponse = await $.ajax({ url: '/foos' });
-    this.store.pushPayload(foosResponse);
+    switch(this.args.fetchMethod) {
+      case 'jquery':
+        this.store.pushPayload(
+          /* global $ */
+          await $.ajax({ url: '/foos' })
+        );
+        break;
+      case 'xhr':
+        this.store.pushPayload(
+          JSON.parse(await new Promise(resolve => {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/foos', true);
+            xhr.onload = function() {
+              resolve(xhr.response);
+            };
+            xhr.send();
+          }))
+        );
+        break;
+      case 'data':
+        this.store.findAll('foo');
+        break;
+    }
     this.foos = await this.store.peekAll('foo');
   }
 }
